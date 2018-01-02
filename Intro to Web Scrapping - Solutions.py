@@ -1,24 +1,24 @@
--------Άσκηση-------
+#-------Άσκηση-------
 
-Να γίνουν scrap όλοι οι τίτλοι με τις τιμές που βρίσκονται στην πρώτη σελίδα
+#Να γίνουν scrap όλοι οι τίτλοι με τις τιμές που βρίσκονται στην πρώτη σελίδα
 
-Λύση :
+#Λύση :
 
 li = parser.find_all('li', {'class':'col-xs-6 col-sm-4 col-md-3 col-lg-3'})
 li_length = len(li)
 for index in range(li_length):
     print(li[index].find('h3').find('a')['title']) #prints the value of attribute "title" from li.h3.a
 
--------Άσκηση-------
+#-------Άσκηση-------
 
-1. Να φτιάξετε ένα pandas dataframe με όλα τα βιβλία από όλες τις σελίδες, 
-   όπου οι στήλες θα είναι Όνομα, Τιμή, Διαθεσιμότητα, Βαθμολογία
-2. Να βρείτε τη μέση τιμή της βαθμολογίας και της τιμής
-3. Να τυπώσετε όλα τα βιβλία με 1 αστέρι βαθμολογία
+#1. Να φτιάξετε ένα pandas dataframe με όλα τα βιβλία από όλες τις σελίδες, 
+#   όπου οι στήλες θα είναι Όνομα, Τιμή, Διαθεσιμότητα, Βαθμολογία
+#2. Να βρείτε τη μέση τιμή της βαθμολογίας και της τιμής
+#3. Να τυπώσετε όλα τα βιβλία με 1 αστέρι βαθμολογία
 
----> tip: df = pd.DataFrame(list_of_lists, columns=list_with_headers)
+#---> tip: df = pd.DataFrame(list_of_lists, columns=list_with_headers)
 
-Λύση :
+#Λύση :
 
 import requests
 import pandas as pd
@@ -26,13 +26,13 @@ from bs4 import BeautifulSoup
 
 title = []
 price = []
-stock = [] #boolean or string? 
+stock = [] 
 rating = []
 
-#temp arrays
+#temporary arrays
 t = []
 p = []
-s = [] #boolean or string? 
+s = []  
 r = []
 
 for i in range(1, 51):
@@ -113,12 +113,15 @@ for row in rating:
     elif row == 'Five':
         rating[i] = 5
         i += 1
+        
 #converting price to floats
 i = 0
 for row in price:
     price[i] = float(row[1:])
     i += 1
-#creating the dataframe
+    
+#Creating the dataframe
+#what's better for it?
 
 #dictionary
 d = {}
@@ -126,26 +129,29 @@ d['title'] = title
 d['price'] = price
 d['stock'] = stock
 d['rating'] = rating
+    
     #or
-#list
+
+#list?
 list_of_lists = []
 list_of_lists.append(title)
 list_of_lists.append(price)
 list_of_lists.append(stock)
 list_of_lists.append(rating)
 
-#zip(*list_of_lists) -->should reverse rows to columns and vice versa, but doesnt work in Python 3.xxx
+#[TIP] zip(*list_of_lists) -->should reverse rows to columns and vice versa, but doesnt work in Python 3.xxx
 
 df = pd.DataFrame.from_dict(d)
 
 #Μέση τιμή βαθμολογίας και τιμής
+
 print("Μέση τιμή : %.2f"  % df['price'].mean())
 print("Μέση βαθμολογία : " + str(df['rating'].mean()))
 print("------------------------")
 
 #Όλα τα βιβλία με 1 αστέρι βαθμολογία
-
 #shape is (1000,4)
+
 books = 0
 for i in range(1000):
     if(int(df.loc[i]['rating']) == 1):
