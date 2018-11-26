@@ -1,2 +1,3 @@
 # Data-Science-Workshop
-Solutions from all exercises
+
+Data Science by Golden Gate Pro - Solutions for all exercises 
